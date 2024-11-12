@@ -1,0 +1,31 @@
+name: Lint Python Code with Pylint
+
+on:
+  pull_request:
+    branches:
+      - main  # Runs the workflow on pull requests to the main branch
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest # now only on ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'  # Specify the Python version you are using
+
+      # Install pylint
+      - name: Install pylint
+        run: pip install pylint
+      
+      # Run pylint on the backend directory
+      - name: Run pylint
+        working-directory: backend
+        run: |
+          pylint **/*.py --rcfile=.pylintrc
